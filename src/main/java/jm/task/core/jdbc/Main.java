@@ -38,5 +38,6 @@ public class Main {
         System.out.println("Table is cleaned!");
         userService.dropUsersTable();
         System.out.println("Table is delete!");
+
     }
 }
