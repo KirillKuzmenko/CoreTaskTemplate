@@ -1,14 +1,16 @@
 package jm.task.core.jdbc.dao;
 
 import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.PreparedStatement;
-import com.mysql.jdbc.Statement;
+//import com.mysql.jdbc.PreparedStatement;
+//import com.mysql.jdbc.Statement;
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 
 public class UserDaoJDBCImpl implements UserDao {
 
@@ -22,11 +24,11 @@ public class UserDaoJDBCImpl implements UserDao {
         }
     }
 
-    public void createUsersTable() throws SQLException {
+    public void createUsersTable() {
         String str = "CREATE TABLE IF NOT EXISTS User(Id INT PRIMARY KEY AUTO_INCREMENT," +
                 " Name VARCHAR(20), lastName VARCHAR(20), Age INT);";
 
-        try (Statement stat = (Statement) con.createStatement()) {
+        try (Statement stat = con.createStatement()) {
 
             stat.executeUpdate(str);
 
@@ -40,7 +42,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public void dropUsersTable() {
         String str = "DROP TABLE IF EXISTS User;";
 
-        try (Statement stat = (Statement) con.createStatement()) {
+        try (Statement stat = con.createStatement()) {
 
             stat.executeUpdate(str);
 
@@ -54,7 +56,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public void saveUser(String name, String lastName, byte age) {
         String str = "INSERT User(Name, lastName, age) VALUES(?, ?, ?);";
 
-        try (PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(str)) {
+        try (PreparedStatement preparedStatement = con.prepareStatement(str)) {
 
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, lastName);
@@ -71,7 +73,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public void removeUserById(long id) {
         String str = "DELETE FROM User WHERE Id = ?";
 
-        try (PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(str)) {
+        try (PreparedStatement preparedStatement = con.prepareStatement(str)) {
 
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
@@ -88,8 +90,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
         String str = "SELECT Id, Name, lastName, age FROM User;";
 
-        try (Connection con = (Connection) Util.getConnection();
-            Statement stat = (Statement) con.createStatement()) {
+        try (Statement stat = con.createStatement()) {
 
             ResultSet resultSet = stat.executeQuery(str);
 
@@ -114,7 +115,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public void cleanUsersTable() {
         String str = "DELETE FROM User;";
 
-        try (Statement stat = (Statement) con.createStatement()) {
+        try (Statement stat = con.createStatement()) {
             stat.executeUpdate(str);
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();

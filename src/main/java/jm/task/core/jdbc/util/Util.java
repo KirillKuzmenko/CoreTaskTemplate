@@ -69,10 +69,9 @@ public class Util {
 
     /**
      * Получить фабрику сессий
-     * @return {@ling SessionFactory}
+     * @return {@link SessionFactory}
      */
     public static SessionFactory getSessionFactory() {
         return sessionFactory;
     }
-
 }
