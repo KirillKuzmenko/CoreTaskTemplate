@@ -1,27 +1,21 @@
 package jm.task.core.jdbc.dao;
 
-import com.mysql.jdbc.Statement;
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
+import org.hibernate.Query;
 import org.hibernate.Session;
 
-import javax.jws.soap.SOAPBinding;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 
 public class UserDaoHibernateImpl implements UserDao {
 
-    //private Session session = null;
-
     public UserDaoHibernateImpl() {
-        //session = Util.getSessionFactory().openSession();
-    }
 
+    }
 
     @Override
     public void createUsersTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS User(Id INT PRIMARY KEY AUTO_INCREMENT," +
+        String sql = "CREATE TABLE IF NOT EXISTS user(Id INT PRIMARY KEY AUTO_INCREMENT," +
                 " Name VARCHAR(20), lastName VARCHAR(20), Age INT);";
 
         Session session = Util.getSessionFactory().openSession();
@@ -33,12 +27,12 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void dropUsersTable() {
-        String sql = "DROP TABLE IF EXISTS User;";
+        String sql = "DROP TABLE IF EXISTS user;";
 
         Session session = Util.getSessionFactory().openSession();
         session.beginTransaction();
         session.createSQLQuery(sql).executeUpdate();
-
+        session.close();
     }
 
     @Override
@@ -55,7 +49,7 @@ public class UserDaoHibernateImpl implements UserDao {
     public void removeUserById(long id) {
         Session session = Util.getSessionFactory().openSession();
         session.beginTransaction();
-        User user = (User) session.load(User.class, id);
+        User user = session.load(User.class, id);
         session.delete(user);
         session.getTransaction().commit();
         session.close();
@@ -63,7 +57,10 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public List<User> getAllUsers() {
-        return null;
+        Session session = Util.getSessionFactory().getCurrentSession();
+        Query q = session.createQuery("from user");
+        List<User> users = q.list();
+        return users;
     }
 
     @Override

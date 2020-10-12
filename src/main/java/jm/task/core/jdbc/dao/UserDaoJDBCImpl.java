@@ -1,6 +1,6 @@
 package jm.task.core.jdbc.dao;
 
-import com.mysql.jdbc.Connection;
+//import com.mysql.jdbc.Connection;
 //import com.mysql.jdbc.PreparedStatement;
 //import com.mysql.jdbc.Statement;
 import jm.task.core.jdbc.model.User;
@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.sql.Connection;
 
 public class UserDaoJDBCImpl implements UserDao {
 
