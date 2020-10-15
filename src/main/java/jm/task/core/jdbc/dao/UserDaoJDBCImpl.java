@@ -1,8 +1,5 @@
 package jm.task.core.jdbc.dao;
 
-//import com.mysql.jdbc.Connection;
-//import com.mysql.jdbc.PreparedStatement;
-//import com.mysql.jdbc.Statement;
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
 import java.sql.ResultSet;
@@ -19,7 +16,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public UserDaoJDBCImpl() {
         try {
-            con = (Connection) Util.getConnection();
+            con = Util.getConnection();
         } catch (Exception e) {
             e.printStackTrace();
         }
